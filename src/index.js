@@ -14,7 +14,7 @@ client.on('ready', () => {
 
 client.on('message', async message => {
     // Ignore other bot messages
-    if (message.author.bot) {
+    if (message.author.bot && message.author.username != 'irc#6210') {
         return;
     }
 
