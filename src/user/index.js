@@ -1,6 +1,7 @@
 const api = require('../api');
 const query = require('./query');
-var toMarkdown = require('to-markdown');
+const toMarkdown = require('to-markdown');
+const striptags = require('striptags');
 
 const search = async (searchArg) => {
     const response = await api(query, {
@@ -29,7 +30,9 @@ const toDiscordObject = (user) => {
         thumbnail: {
             url: user.avatar.large,
         },
-        description: toMarkdown(user.about).substring(0, 300) + '...',
+        description: user.about != null ?
+                     toMarkdown(striptags(user.about)).substring(0, 300) + '...' :
+                     '',
         footer: {
             text: daysWatched + chaptersRead
         }

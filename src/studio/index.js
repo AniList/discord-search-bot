@@ -1,6 +1,6 @@
 const api = require('../api');
 const query = require('./query');
-var toMarkdown = require('to-markdown');
+const toMarkdown = require('to-markdown');
 
 const search = async (searchArg) => {
     const response = await api(query, {
