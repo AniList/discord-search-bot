@@ -14,7 +14,7 @@ client.on('ready', () => {
 
 client.on('message', async message => {
     // Ignore other bot messages
-    if (message.author.bot && message.author.username != 'irc#6210') {
+    if (message.author.bot && message.author.username != 'irc') {
         return;
     }
 
@@ -61,7 +61,7 @@ client.on('message', async message => {
     }
 
     if (response.url) {
-        message.channel.send(response.url);
+        message.channel.send(`<${response.url}>`);
     }
 
     message.channel.send({
