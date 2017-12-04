@@ -1,0 +1,16 @@
+{
+  "name": "anilist-discord-bot",
+  "version": "1.0.0",
+  "description": "Search for anime, manga, and more from AniList",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Josh Star",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "graphql-request": "^1.4.0",
+    "to-markdown": "^3.1.0"
+  }
+}
