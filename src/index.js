@@ -18,12 +18,15 @@ client.on('message', async message => {
         return;
     }
 
-    // Ensure the message starts with our prefix
-    if (message.content.indexOf(config.prefix) !== 0) {
+    // Remove irc username suffix
+    const messageContent = message.content.replace(/<.*> /, '');
+
+     // Ensure the message starts with our prefix
+    if (messageContent.indexOf(config.prefix) !== 0) {
         return;
     }
 
-    let args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    let args = messageContent.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift().toLowerCase();
     args = args.join(' ');
 
