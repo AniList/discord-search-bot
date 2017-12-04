@@ -60,6 +60,10 @@ client.on('message', async message => {
         return;
     }
 
+    if (response.url) {
+        message.channel.send(response.url);
+    }
+
     message.channel.send({
         embed: {
             ...response,
