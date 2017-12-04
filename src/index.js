@@ -78,7 +78,8 @@ const help = {
 Search anime: !a or !anime <anime title>
 Search manga: !m or !manga <manga title>
 Search studio: !s or !studio <studio name>
-Search user: !u or !user <user name>`
+Search user: !u or !user <user name>
+GitHub: https://github.com/joshstar/AniList-Discord-Bot`
 };
 
 client.login(config.token);
