@@ -44,6 +44,11 @@ client.on('message', async message => {
             response = await media.search(args, 'ANIME');
             break;
 
+        case 'm':
+        case 'manga':
+            response = await media.search(args, 'MANGA');
+            break;
+
         case 'c':
         case 'character':
             response = await character.search(args);
@@ -53,11 +58,6 @@ client.on('message', async message => {
         case 'person':
         case 'staff':
             response = await staff.search(args);
-            break;
-
-        case 'm':
-        case 'manga':
-            response = await media.search(args, 'MANGA');
             break;
 
         case 's':
@@ -93,6 +93,8 @@ const help = {
     description: `
 Search anime: !a or !anime <anime title>
 Search manga: !m or !manga <manga title>
+Search character: !c or !character <character name>
+Search staff: !p or !person or !staff <staff name>
 Search studio: !s or !studio <studio name>
 Search user: !u or !user <user name>
 GitHub: https://github.com/joshstar/AniList-Discord-Bot`
