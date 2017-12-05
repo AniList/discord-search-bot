@@ -15,8 +15,13 @@ const search = async (searchArg) => {
 }
 
 const toDiscordObject = (staff) => {
+    let name = staff.name.first;
+    if (staff.name.last != null) {
+        name += ` ${staff.name.last}`;
+    }
+
     return {
-        title: `${staff.name.first} ${staff.name.last}`,
+        title: name,
         url: staff.siteUrl,
         thumbnail: {
             url: staff.image.large,
