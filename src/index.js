@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
 const config = require('./config.json');
 
+const character = require('./character');
 const media = require('./media');
+const staff = require('./staff');
 const user = require('./user');
 const studio = require('./studio');
 
@@ -40,6 +42,17 @@ client.on('message', async message => {
         case 'a':
         case 'anime':
             response = await media.search(args, 'ANIME');
+            break;
+
+        case 'c':
+        case 'character':
+            response = await character.search(args);
+            break;
+
+        case 'p':
+        case 'person':
+        case 'staff':
+            response = await staff.search(args);
             break;
 
         case 'm':
