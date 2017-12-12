@@ -1,5 +1,6 @@
 const api = require('../api');
 const query = require('./query');
+const discordMessage = require('../discordMessage');
 const toMarkdown = require('to-markdown');
 
 const search = async (searchArg) => {
@@ -11,23 +12,20 @@ const search = async (searchArg) => {
         return response;
     }
 
-    return toDiscordObject(response.Studio);
-}
-
-const toDiscordObject = (studio) => {
-    let anime = 'Popular Anime: <br>';
-
-    studio.media.nodes.map(media => {
+    const data = response.Studio
+    let anime = '';
+    data.media.nodes.map(media => {
         anime += `
             <a href='${media.siteUrl}'>${media.title.romaji}</a> <br>
         `;
     });
 
-    return {
-        title: studio.name,
-        url: studio.siteUrl,
-        description: toMarkdown(anime),
-    }
+    return discordMessage({
+        title: 'Popular Anime',
+        name: data.name,
+        url: data.siteUrl,
+        description: anime,
+    })
 }
 
 module.exports = {

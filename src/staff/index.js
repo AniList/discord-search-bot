@@ -1,6 +1,6 @@
 const api = require('../api');
 const query = require('./query');
-const toMarkdown = require('to-markdown');
+const discordMessage = require('../discordMessage');
 
 const search = async (searchArg) => {
     const response = await api(query, {
@@ -11,23 +11,19 @@ const search = async (searchArg) => {
         return response;
     }
 
-    return toDiscordObject(response.Staff);
-}
+    const data = response.Staff;
 
-const toDiscordObject = (staff) => {
-    let name = staff.name.first;
-    if (staff.name.last != null) {
-        name += ` ${staff.name.last}`;
+    let name = data.name.first;
+    if (data.name.last != null) {
+        name += ` ${data.name.last}`;
     }
 
-    return {
-        title: name,
-        url: staff.siteUrl,
-        thumbnail: {
-            url: staff.image.large,
-        },
-        description: toMarkdown(staff.description).substring(0, 400) + '...',
-    }
+    return discordMessage({
+        name: name,
+        url: data.siteUrl,
+        imageUrl: data.image.large,
+        description: data.description
+    })
 }
 
 module.exports = {
