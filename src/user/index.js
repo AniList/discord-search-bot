@@ -1,5 +1,6 @@
 const api = require('../api');
 const query = require('./query');
+const discordMessage = require('../discordMessage');
 const toMarkdown = require('to-markdown');
 const striptags = require('striptags');
 
@@ -12,31 +13,29 @@ const search = async (searchArg) => {
         return response;
     }
 
-    return toDiscordObject(response.User);
-}
+    const data = response.User;
+    const {chaptersRead, watchedTime} = data.stats;
 
-const toDiscordObject = (user) => {
+    const chaptersString = chaptersRead != 0 ? `Chapters read: ${chaptersRead} ` : '';
+
     let daysWatched = '';
-    const chaptersRead = user.stats.chaptersRead != 0 ? `Chapters read: ${user.stats.chaptersRead} ` : '';
-
-    if (user.stats.watchedTime != 0) {
-        daysWatched = (user.stats.watchedTime / (60 * 24)).toFixed(1);
-        daysWatched = `Days watched: ${daysWatched} `;
+    if (watchedTime != 0) {
+        daysWatched = (watchedTime / (60 * 24)).toFixed(1);
+        daysWatched = `Days watched: ${daysWatched}`;
     }
 
-    return {
-        title: user.name,
-        url: user.siteUrl,
-        thumbnail: {
-            url: user.avatar.large,
-        },
-        description: user.about != null ?
-                     toMarkdown(striptags(user.about)).substring(0, 300) + '...' :
-                     '',
-        footer: {
-            text: daysWatched + chaptersRead
-        }
-    }
+    let footer = '';
+    // Use the en quad space after score to not get stripped by Discord
+    if (watchedTime) footer += daysWatched + '  ';
+    if (chaptersRead) footer += chaptersString;
+
+    return discordMessage({
+        name: data.name,
+        url: data.siteUrl,
+        imageUrl: data.avatar.large,
+        description: striptags(data.about),
+        footer: footer
+    });
 }
 
 module.exports = {

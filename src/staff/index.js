@@ -23,7 +23,7 @@ const search = async (searchArg) => {
         url: data.siteUrl,
         imageUrl: data.image.large,
         description: data.description
-    })
+    });
 }
 
 module.exports = {

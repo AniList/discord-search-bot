@@ -1,7 +1,9 @@
 const toMarkdown = require('to-markdown');
 const anilistLogo = "https://anilist.co/img/logo_al.png";
 
-const capitalize = str => str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+const pipe = (op1, op2) => arg => op2(op1(arg))
+
+const removeSpoilers = str => str.replace(/<span[^>]*>.*<\/span>/g, "");
 
 const shorten = str => {
     const markdown = toMarkdown(str);
@@ -12,13 +14,9 @@ const shorten = str => {
     }
 }
 
-const discordMessage = ({ name, url, imageUrl, description, score, status, title } = {}) => {
-    const scoreString = score != null ? `Score: ${score}%` : '';
-    const statusString = status != null ? `Status: ${capitalize(status)}` : '';
-
+const discordMessage = ({ name, url, imageUrl, description, footer, title } = {}) => {
     return {
         title: title,
-        fields: fields,
         author: {
             name: name,
             url: url,
@@ -27,10 +25,9 @@ const discordMessage = ({ name, url, imageUrl, description, score, status, title
         thumbnail: {
             url: imageUrl,
         },
-        description: shorten(description),
+        description: pipe(removeSpoilers, shorten)(description),
         footer: {
-            // Use the en quad space after score to not get stripped by Discord
-            text: score || status ? `${scoreString}  ${statusString}` : null
+            text: footer
         }
     }
 }

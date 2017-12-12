@@ -2,6 +2,8 @@ const api = require('../api');
 const query = require('./query');
 const discordMessage = require('../discordMessage');
 
+const capitalize = str => str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+
 const search = async (searchArg, type) => {
     const response = await api(query, {
         search: searchArg,
@@ -13,14 +15,22 @@ const search = async (searchArg, type) => {
     }
 
     const data = response.Media;
+    const {averageScore: score, status} = data;
+
+    const scoreString = score != null ? `Score: ${score}%` : '';
+    const statusString = status != null ? `Status: ${capitalize(status)}` : '';
+
+    let footer = '';
+    // Use the en quad space after score to not get stripped by Discord
+    if (score) footer += scoreString + '  ';
+    if (status) footer += statusString;
 
     return discordMessage({
         name: data.title.romaji,
         url: data.siteUrl,
         imageUrl: data.coverImage.large,
         description: data.description,
-        score: data.averageScore,
-        status: data.status
+        footer: footer
     })
 }
 
