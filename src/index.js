@@ -83,8 +83,8 @@ client.on("message", async message => {
         return;
     }
 
-    if (response.url) {
-        message.channel.send(`<${response.url}>`);
+    if (response.author.url) {
+        message.channel.send(`<${response.author.url}>`);
     }
 
     message.channel.send({
