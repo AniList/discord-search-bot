@@ -1,72 +1,79 @@
-const Discord = require('discord.js');
-const config = require('./config.json');
+const Discord = require("discord.js");
+const config = require("./config.json");
 
-const character = require('./character');
-const media = require('./media');
-const staff = require('./staff');
-const user = require('./user');
-const studio = require('./studio');
+const character = require("./character");
+const media = require("./media");
+const staff = require("./staff");
+const user = require("./user");
+const studio = require("./studio");
 
 const client = new Discord.Client();
 
-client.on('ready', () => {
+client.on("ready", () => {
     // This event will run if the bot starts, and logs in, successfully.
-    console.log(`Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`);
+    console.log(
+        `Bot has started, with ${client.users.size} users, in ${
+            client.channels.size
+        } channels of ${client.guilds.size} guilds.`
+    );
 });
 
-client.on('message', async message => {
+client.on("message", async message => {
     // Ignore other bot messages
-    if (message.author.bot && message.author.username != 'irc') {
+    if (message.author.bot && message.author.username != "irc") {
         return;
     }
 
     // Remove irc username suffix
-    const messageContent = message.content.replace(/<.*> /, '');
+    const messageContent = message.content.replace(/<.*> /, "");
 
-     // Ensure the message starts with our prefix
+    // Ensure the message starts with our prefix
     if (messageContent.indexOf(config.prefix) !== 0) {
         return;
     }
 
-    let args = messageContent.slice(config.prefix.length).trim().split(/ +/g);
+    let args = messageContent
+        .slice(config.prefix.length)
+        .trim()
+        .split(/ +/g);
     const command = args.shift().toLowerCase();
-    args = args.join(' ');
+    args = args.join(" ");
 
     let response = null;
 
     switch (command) {
-        case 'help':
+        case "help":
             response = help;
             break;
 
-        case 'a':
-        case 'anime':
-            response = await media.search(args, 'ANIME');
+        case "a":
+        case "anime":
+            response = await media.search(args, "ANIME");
             break;
 
-        case 'm':
-        case 'manga':
-            response = await media.search(args, 'MANGA');
+        case "m":
+        case "manga":
+            response = await media.search(args, "MANGA");
             break;
 
-        case 'c':
-        case 'character':
+        case "c":
+        case "character":
             response = await character.search(args);
             break;
 
-        case 'p':
-        case 'person':
-        case 'staff':
+        case "p":
+        case "person":
+        case "staff":
             response = await staff.search(args);
             break;
 
-        case 's':
-        case 'studio':
+        case "s":
+        case "studio":
             response = await studio.search(args);
             break;
 
-        case 'u':
-        case 'user':
+        case "u":
+        case "user":
             response = await user.search(args);
             break;
     }
@@ -89,7 +96,7 @@ client.on('message', async message => {
 });
 
 const help = {
-    title: 'Commands',
+    title: "Commands",
     description: `
 Search anime: !a or !anime <anime title>
 Search manga: !m or !manga <manga title>

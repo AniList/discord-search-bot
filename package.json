@@ -1,17 +1,46 @@
 {
-  "name": "anilist-discord-bot",
-  "version": "1.0.0",
-  "description": "Search for anime, manga, and more from AniList",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "test"
-  },
-  "author": "Josh Star",
-  "license": "MIT",
-  "dependencies": {
-    "discord.js": "^11.2.1",
-    "graphql-request": "^1.4.0",
-    "striptags": "^3.1.1",
-    "to-markdown": "^3.1.0"
-  }
+    "name": "anilist-discord-bot",
+    "version": "1.0.0",
+    "description": "Search for anime, manga, and more from AniList",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon --watch src src/index.js",
+        "lint": "eslint .",
+        "precommit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.js": ["npm run lint", "prettier --write", "git add"]
+    },
+    "eslintConfig": {
+        "parserOptions": {
+            "ecmaVersion": 8,
+            "ecmaFeatures": {
+                "experimentalObjectRestSpread": true
+            }
+        },
+        "rules": {
+            "no-console": "off"
+        },
+        "env": {
+            "es6": true,
+            "node": true
+        },
+        "extends": "eslint:recommended"
+    },
+    "author": "Josh Star",
+    "license": "MIT",
+    "dependencies": {
+        "discord.js": "^11.2.1",
+        "graphql-request": "^1.4.0",
+        "striptags": "^3.1.1",
+        "to-markdown": "^3.1.0"
+    },
+    "devDependencies": {
+        "eslint": "^4.13.1",
+        "husky": "^0.14.3",
+        "lint-staged": "^6.0.0",
+        "nodemon": "^1.12.5",
+        "prettier": "^1.9.2"
+    }
 }

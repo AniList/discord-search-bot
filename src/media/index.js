@@ -1,6 +1,9 @@
-const api = require('../api');
-const query = require('./query');
-const toMarkdown = require('to-markdown');
+const api = require("../api");
+const query = require("./query");
+const discordMessage = require("../discordMessage");
+
+const capitalize = str =>
+    str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
 
 const search = async (searchArg, type) => {
     const response = await api(query, {
@@ -12,25 +15,25 @@ const search = async (searchArg, type) => {
         return response;
     }
 
-    return toDiscordObject(response.Media);
-}
+    const data = response.Media;
+    const { averageScore: score, status } = data;
 
-const toDiscordObject = (media) => {
-    const score = media.averageScore != null ? `Score: ${media.averageScore}% ` : '';
-    const status = media.averageScore != null ? `Status: ${media.status.toLowerCase()} ` : '';
+    const scoreString = score != null ? `Score: ${score}%` : "";
+    const statusString = status != null ? `Status: ${capitalize(status)}` : "";
 
-    return {
-        title: media.title.romaji,
-        url: media.siteUrl,
-        thumbnail: {
-            url: media.coverImage.large,
-        },
-        description: toMarkdown(media.description).substring(0, 400) + '...',
-        footer: {
-            text: score + status
-        }
-    }
-}
+    let footer = "";
+    // Use the en quad space after score to not get stripped by Discord
+    if (score) footer += scoreString + "  ";
+    if (status) footer += statusString;
+
+    return discordMessage({
+        name: data.title.romaji,
+        url: data.siteUrl,
+        imageUrl: data.coverImage.large,
+        description: data.description,
+        footer: footer
+    });
+};
 
 module.exports = {
     search

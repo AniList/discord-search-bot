@@ -1,34 +1,30 @@
-const api = require('../api');
-const query = require('./query');
-const toMarkdown = require('to-markdown');
+const api = require("../api");
+const query = require("./query");
+const discordMessage = require("../discordMessage");
 
-const search = async (searchArg) => {
+const search = async searchArg => {
     const response = await api(query, {
-        search: searchArg,
+        search: searchArg
     });
 
     if (response.error) {
         return response;
     }
 
-    return toDiscordObject(response.Character);
-}
+    const data = response.Character;
 
-const toDiscordObject = (character) => {
-    let name = character.name.first;
-    if (character.name.last != null) {
-        name += ` ${character.name.last}`;
+    let name = data.name.first;
+    if (data.name.last != null) {
+        name += ` ${data.name.last}`;
     }
 
-    return {
-        title: name,
-        url: character.siteUrl,
-        thumbnail: {
-            url: character.image.large,
-        },
-        description: toMarkdown(character.description).substring(0, 400) + '...',
-    }
-}
+    return discordMessage({
+        name: name,
+        url: data.siteUrl,
+        imageUrl: data.image.large,
+        description: data.description
+    });
+};
 
 module.exports = {
     search
