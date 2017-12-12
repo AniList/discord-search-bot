@@ -1,17 +1,21 @@
 {
-  "name": "anilist-discord-bot",
-  "version": "1.0.0",
-  "description": "Search for anime, manga, and more from AniList",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "test"
-  },
-  "author": "Josh Star",
-  "license": "MIT",
-  "dependencies": {
-    "discord.js": "^11.2.1",
-    "graphql-request": "^1.4.0",
-    "striptags": "^3.1.1",
-    "to-markdown": "^3.1.0"
-  }
+    "name": "anilist-discord-bot",
+    "version": "1.0.0",
+    "description": "Search for anime, manga, and more from AniList",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon --watch src src/index.js"
+    },
+    "author": "Josh Star",
+    "license": "MIT",
+    "dependencies": {
+        "discord.js": "^11.2.1",
+        "graphql-request": "^1.4.0",
+        "striptags": "^3.1.1",
+        "to-markdown": "^3.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^1.12.5"
+    }
 }
