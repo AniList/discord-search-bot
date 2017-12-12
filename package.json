@@ -10,20 +10,23 @@
         "precommit": "lint-staged"
     },
     "lint-staged": {
-        "*.js": [
-            "npm run lint",
-            "prettier --write",
-            "git add"
-        ]
+        "*.js": ["npm run lint", "prettier --write", "git add"]
     },
     "eslintConfig": {
         "parserOptions": {
-            "ecmaVersion": 8
+            "ecmaVersion": 8,
+            "ecmaFeatures": {
+                "experimentalObjectRestSpread": true
+            }
         },
-        "extends": [
-            "eslint:recommended",
-            "plugin:flowtype/recommended"
-        ]
+        "rules": {
+            "no-console": "off"
+        },
+        "env": {
+            "es6": true,
+            "node": true
+        },
+        "extends": "eslint:recommended"
     },
     "author": "Josh Star",
     "license": "MIT",

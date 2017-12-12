@@ -1,8 +1,9 @@
-const api = require('../api');
-const query = require('./query');
-const discordMessage = require('../discordMessage');
+const api = require("../api");
+const query = require("./query");
+const discordMessage = require("../discordMessage");
 
-const capitalize = str => str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+const capitalize = str =>
+    str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
 
 const search = async (searchArg, type) => {
     const response = await api(query, {
@@ -15,14 +16,14 @@ const search = async (searchArg, type) => {
     }
 
     const data = response.Media;
-    const {averageScore: score, status} = data;
+    const { averageScore: score, status } = data;
 
-    const scoreString = score != null ? `Score: ${score}%` : '';
-    const statusString = status != null ? `Status: ${capitalize(status)}` : '';
+    const scoreString = score != null ? `Score: ${score}%` : "";
+    const statusString = status != null ? `Status: ${capitalize(status)}` : "";
 
-    let footer = '';
+    let footer = "";
     // Use the en quad space after score to not get stripped by Discord
-    if (score) footer += scoreString + '  ';
+    if (score) footer += scoreString + "  ";
     if (status) footer += statusString;
 
     return discordMessage({
@@ -31,8 +32,8 @@ const search = async (searchArg, type) => {
         imageUrl: data.coverImage.large,
         description: data.description,
         footer: footer
-    })
-}
+    });
+};
 
 module.exports = {
     search

@@ -1,10 +1,10 @@
-const api = require('../api');
-const query = require('./query');
-const discordMessage = require('../discordMessage');
+const api = require("../api");
+const query = require("./query");
+const discordMessage = require("../discordMessage");
 
-const search = async (searchArg) => {
+const search = async searchArg => {
     const response = await api(query, {
-        search: searchArg,
+        search: searchArg
     });
 
     if (response.error) {
@@ -24,7 +24,7 @@ const search = async (searchArg) => {
         imageUrl: data.image.large,
         description: data.description
     });
-}
+};
 
 module.exports = {
     search
