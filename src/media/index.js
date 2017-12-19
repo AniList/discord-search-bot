@@ -3,7 +3,13 @@ const query = require("./query");
 const discordMessage = require("../discordMessage");
 
 const capitalize = str =>
-    str.charAt(0).toUpperCase() + str.substring(1).toLowerCase();
+    str
+        .split("_")
+        .map(
+            word =>
+                word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()
+        )
+        .join(" ");
 
 const search = async (searchArg, type) => {
     const response = await api(query, {
