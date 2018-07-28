@@ -1,6 +1,6 @@
 module.exports = `
 query ($search: String) {
-    User(search: $search) {
+    User(name: $search) {
         id
         name
         siteUrl
