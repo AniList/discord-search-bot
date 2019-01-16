@@ -5,7 +5,7 @@
 
 ## Usage
 
-![AniList Discord Bot !help command](https://user-images.githubusercontent.com/4658208/51228498-d71d8b00-1926-11e9-96c9-6e53284d92a8.png)
+![AniList Discord Bot !help command](https://user-images.githubusercontent.com/4658208/51229242-9ffca900-1929-11e9-8e5f-b7603bdff35a.png)
 
 ## Installation
 
