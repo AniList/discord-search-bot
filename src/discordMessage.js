@@ -32,7 +32,10 @@ const discordMessage = ({
         thumbnail: {
             url: imageUrl
         },
-        description: pipe(removeSpoilers, shorten)(description),
+        description: pipe(
+            removeSpoilers,
+            shorten
+        )(description),
         footer: {
             text: footer
         }

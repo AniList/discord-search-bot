@@ -1,5 +1,5 @@
+require("dotenv").config();
 const Discord = require("discord.js");
-const config = require("./config.json");
 
 const character = require("./character");
 const media = require("./media");
@@ -8,6 +8,9 @@ const user = require("./user");
 const studio = require("./studio");
 
 const client = new Discord.Client();
+
+// Use exclamation mark as the default prefix
+const prefix = process.env.PREFIX || "!";
 
 client.on("ready", () => {
     // This event will run if the bot starts, and logs in, successfully.
@@ -28,12 +31,12 @@ client.on("message", async message => {
     const messageContent = message.content.replace(/<.*> /, "");
 
     // Ensure the message starts with our prefix
-    if (messageContent.indexOf(config.prefix) !== 0) {
+    if (messageContent.indexOf(prefix) !== 0) {
         return;
     }
 
     let args = messageContent
-        .slice(config.prefix.length)
+        .slice(prefix.length)
         .trim()
         .split(/ +/g);
     const command = args.shift().toLowerCase();
@@ -83,7 +86,7 @@ client.on("message", async message => {
         return;
     }
 
-    if (response.author.url) {
+    if (response.author && response.author.url) {
         message.channel.send(`<${response.author.url}>`);
     }
 
@@ -107,4 +110,4 @@ Search user: !u or !user <user name>
 GitHub: https://github.com/joshstar/AniList-Discord-Bot`
 };
 
-client.login(config.token);
+client.login(process.env.TOKEN);
