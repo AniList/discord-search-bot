@@ -19,6 +19,11 @@ client.on("ready", () => {
             client.channels.size
         } channels of ${client.guilds.size} guilds.`
     );
+    console.log(
+        `\nAdd the bot to your server here:\nhttps://discordapp.com/oauth2/authorize?client_id=${
+            client.user.id
+        }&scope=bot&permissions=1024`
+    );
 });
 
 client.on("message", async message => {
