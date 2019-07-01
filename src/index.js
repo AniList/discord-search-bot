@@ -86,6 +86,8 @@ client.on("message", async message => {
             break;
     }
 
+    if (response === null) return;
+
     if (response.error) {
         message.channel.send(response.error.message);
         return;
