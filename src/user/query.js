@@ -8,9 +8,13 @@ query ($search: String) {
             large
         }
         about (asHtml: true),
-        stats {
-            watchedTime
-            chaptersRead
+        statistics {
+            anime {
+                minutesWatched
+            }
+            manga {
+                chaptersRead
+            }
         }
     }
 }

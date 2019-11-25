@@ -13,7 +13,8 @@ const search = async searchArg => {
     }
 
     const data = response.User;
-    const { chaptersRead, watchedTime } = data.stats;
+    const watchedTime = data.statistics.anime.minutesWatched;
+    const chaptersRead = data.statistics.manga.chaptersRead;
 
     const chaptersString =
         chaptersRead != 0 ? `Chapters read: ${chaptersRead} ` : "";
