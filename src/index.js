@@ -9,7 +9,7 @@ const studio = require("./studio");
 
 const client = new Discord.Client();
 
-const deleteViaReaction = require("./deleteViaReaction")
+const deleteViaReaction = require("./deleteViaReaction");
 
 // Use exclamation mark as the default prefix
 const prefix = process.env.PREFIX || "!";
@@ -95,11 +95,12 @@ client.on("message", async message => {
         return;
     }
 
+    let replyUrl;
     if (response.author && response.author.url) {
-        message.channel.send(`<${response.author.url}>`);
+        replyUrl = message.channel.send(`<${response.author.url}>`);
     }
 
-    const reply = message.channel.send({
+    const replyEmbed = message.channel.send({
         embed: {
             ...response,
             color: 3447003
@@ -107,7 +108,12 @@ client.on("message", async message => {
     });
 
     if (command !== "help") {
-        deleteViaReaction(message, reply, client)
+        deleteViaReaction(
+            message,
+            await replyEmbed,
+            replyUrl ? await replyUrl : replyUrl,
+            client
+        );
     }
 });
 
