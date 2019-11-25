@@ -1,4 +1,5 @@
-const toMarkdown = require("to-markdown");
+const TurndownService = require("turndown");
+const turndownService = new TurndownService();
 const anilistLogo = "https://anilist.co/img/logo_al.png";
 
 const pipe = (op1, op2) => arg => op2(op1(arg));
@@ -6,7 +7,7 @@ const pipe = (op1, op2) => arg => op2(op1(arg));
 const removeSpoilers = str => str.replace(/<span[^>]*>.*<\/span>/g, "");
 
 const shorten = str => {
-    const markdown = toMarkdown(str);
+    const markdown = turndownService.turndown(str);
     if (markdown.length > 400) {
         return markdown.substring(0, 400) + "...";
     } else {
