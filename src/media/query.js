@@ -9,7 +9,7 @@ query ($search: String, $type: MediaType) {
         coverImage {
             large
         }
-        status
+        status(version:2)
         description(asHtml: true)
         averageScore
     }
