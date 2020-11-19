@@ -1,6 +1,6 @@
 module.exports = `
 query ($search: String, $type: MediaType) {
-    Media(search: $search, type: $type, isAdult:false)) {
+    Media(search: $search, type: $type, isAdult:false) {
         id
         siteUrl
         title {
