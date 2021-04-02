@@ -7,7 +7,7 @@ const staff = require("./staff");
 const user = require("./user");
 const studio = require("./studio");
 
-const client = new Discord.Client();
+const client = new Discord.Client({ disableMentions: "everyone" });
 
 const deleteViaReaction = require("./deleteViaReaction");
 
@@ -17,25 +17,15 @@ const prefix = process.env.PREFIX || "!";
 client.on("ready", () => {
     // This event will run if the bot starts, and logs in, successfully.
     console.log(
-        `Bot has started, with ${client.users.size} users, in ${
-            client.channels.size
-        } channels of ${client.guilds.size} guilds.`
+        `Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`
     );
     console.log(
-        `\nAdd the bot to your server here:\nhttps://discordapp.com/oauth2/authorize?client_id=${
-            client.user.id
-        }&scope=bot&permissions=1024`
+        `\nAdd the bot to your server here:\nhttps://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=1024`
     );
 });
 
 client.on("message", async message => {
-    // Ignore other bot messages
-    if (message.author.bot && message.author.username != "irc") {
-        return;
-    }
-
-    // Remove irc username suffix
-    const messageContent = message.content.replace(/<.*> /, "");
+    const messageContent = message.content;
 
     // Ensure the message starts with our prefix
     if (messageContent.indexOf(prefix) !== 0) {

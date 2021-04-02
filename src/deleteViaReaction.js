@@ -24,7 +24,11 @@ async function deleteViaReaction(
     // When the time is up, remove the bots reaction to the post
     reactionCollector.once("end", () => {
         if (!reaction.message.deleted) {
-            reaction.remove(client.user);
+            try {
+                reaction.remove(client.user);
+            } catch (e) {
+                // Manage Messages permissions not enabled
+            }
         }
     });
 }

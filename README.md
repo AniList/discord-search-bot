@@ -11,7 +11,7 @@
 
 ### Requirements
 
--   Node v10.0.0 or higher
+-   Node v12.0.0 or higher
 -   A Discord developer account
 
 ### Getting Started
