@@ -117,7 +117,7 @@ Search staff: !p or !person or !staff <staff name>
 Search studio: !s or !studio <studio name>
 Search user: !u or !user <user name>
 
-GitHub: https://github.com/joshstar/AniList-Discord-Bot`
+GitHub: https://github.com/AniList/AniList-Discord-Bot`
 };
 
 client.login(process.env.TOKEN);
