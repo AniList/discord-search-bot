@@ -11,7 +11,7 @@
 
 ### Requirements
 
--   Node v12.0.0 or higher
+-   Node v16.6.0 or higher
 -   A Discord developer account
 
 ### Getting Started
@@ -20,6 +20,7 @@
 1. Create a copy of `.env.example` named `.env`
 1. Go to the [Discord Developer Portal](https://discordapp.com/developers/applications/) and create an application
 1. Go to the "Bot" page and click "Add a bot"
+1. Enable all Privileged Gateway Intents
 1. Copy the token created for your bot and paste it into the `TOKEN` value in your `.env` file
 1. Run `npm start`
 
