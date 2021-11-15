@@ -1,5 +1,5 @@
 require("dotenv").config();
-const Discord = require("discord.js");
+const { Client, Intents } = require("discord.js");
 
 const character = require("./character");
 const media = require("./media");
@@ -7,7 +7,14 @@ const staff = require("./staff");
 const user = require("./user");
 const studio = require("./studio");
 
-const client = new Discord.Client({ disableMentions: "everyone" });
+const client = new Client({
+    intents: [
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.GUILD_MEMBERS
+    ],
+    disableMentions: "everyone"
+});
 
 const deleteViaReaction = require("./deleteViaReaction");
 
@@ -24,7 +31,7 @@ client.on("ready", () => {
     );
 });
 
-client.on("message", async message => {
+client.on("messageCreate", async message => {
     const messageContent = message.content;
 
     // Ensure the message starts with our prefix
@@ -81,20 +88,24 @@ client.on("message", async message => {
     if (response === null) return;
 
     if (response.error) {
-        message.channel.send(response.error.message);
+        message.channel.send({ content: response.error.message });
         return;
     }
 
     let replyUrl;
     if (response.author && response.author.url) {
-        replyUrl = message.channel.send(`<${response.author.url}>`);
+        replyUrl = message.channel.send({
+            content: `<${response.author.url}>`
+        });
     }
 
     const replyEmbed = message.channel.send({
-        embed: {
-            ...response,
-            color: 3447003
-        }
+        embeds: [
+            {
+                ...response,
+                color: 3447003
+            }
+        ]
     });
 
     if (command !== "help") {
