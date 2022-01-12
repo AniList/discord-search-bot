@@ -27,7 +27,7 @@
     },
     "dependencies": {
         "discord.js": "^13.5.1",
-        "dotenv": "^6.2.0",
+        "dotenv": "^11.0.0",
         "graphql-request": "^1.8.2",
         "striptags": "^3.1.1",
         "turndown": "^5.0.3"
