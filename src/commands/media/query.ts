@@ -1,4 +1,4 @@
-module.exports = `
+export default `
 query ($search: String, $type: MediaType) {
     Media(search: $search, type: $type, isAdult:false) {
         id

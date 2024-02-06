@@ -1,6 +1,6 @@
-module.exports = `
-query ($search: String) {
-    Staff(search: $search) {
+export default `
+query($search: String) {
+    Character(search: $search) {
         id
         siteUrl
         name {
