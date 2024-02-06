@@ -1,5 +1,5 @@
 <h3 align="center">AniList Discord Bot</h3>
-<p align="center">A simple Discord bot for searching AniList.co</p>
+<p align="center">A simple Discord bot for searching <a href="https://AniList.co">AniList.co</p>
 
 ---
 
@@ -11,8 +11,8 @@
 
 ### Requirements
 
--   Node v12.0.0 or higher
--   A Discord developer account
+- Node v12.0.0 or higher
+- A Discord developer account
 
 ### Getting Started
 
@@ -27,7 +27,7 @@
 
 ### Prefix
 
-Type: `string`<br>
+Type: `string`
 Default: `!`
 
 This determines what should prefix the commands that are recognized by the bot.
