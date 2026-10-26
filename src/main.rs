@@ -35,15 +35,12 @@ async fn main() {
 		})
 		.build();
 
-	let client = serenity::ClientBuilder::new(token, intents)
+	let mut client = serenity::ClientBuilder::new(token, intents)
 		.framework(framework)
-		.await;
-
-	client
-		.unwrap()
-		.start()
 		.await
-		.expect("Client failed to start.");
+		.expect("Failed to create client");
+
+	client.start().await.expect("Client failed to start.");
 }
 
 #[poise::command(slash_command)]

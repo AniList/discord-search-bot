@@ -1,7 +1,7 @@
-use graphql_client::{GraphQLQuery, Response};
+use graphql_client::GraphQLQuery;
 use poise::serenity_prelude as serenity;
 
-use super::{anilist_query, clean_html, send_deletable};
+use super::{anilist_query, anilist_url, clean_html, send_deletable, truncate_bio};
 
 #[derive(GraphQLQuery)]
 #[graphql(
@@ -33,19 +33,18 @@ async fn find_media(
 	name: String,
 	media_type: search_media::MediaType,
 ) -> Result<(), crate::Error> {
-	let request_body = SearchMedia::build_query(search_media::Variables {
+	let kind = match &media_type {
+		search_media::MediaType::MANGA => "manga",
+		_ => "anime",
+	};
+	let Some(media) = anilist_query::<SearchMedia>(search_media::Variables {
 		search: name,
 		type_: media_type,
-	});
-	let response_body: Response<search_media::ResponseData> =
-		anilist_query(&request_body).await?.json().await?;
-
-	let media = match response_body.data {
-		Some(data) => data.media.unwrap(),
-		None => {
-			ctx.say("Not found").await?;
-			return Ok(());
-		}
+	})
+	.await?
+	.and_then(|data| data.media) else {
+		ctx.say("Not found").await?;
+		return Ok(());
 	};
 
 	let media_stats = if media.status.is_some() || media.mean_score.is_some() {
@@ -78,33 +77,33 @@ async fn find_media(
 	};
 
 	let description = match &media.description {
-		Some(desc) => {
-			let mut desc = clean_html(desc);
-			// Keep descriptions short, but if it has <100 characters left, just let it finish
-			if desc.len() > 400 && desc.len() >= 500 {
-				desc = format!("{}...", desc.split_at(400).0);
-			}
-			desc
-		}
+		Some(desc) => truncate_bio(clean_html(desc)),
 		None => "".to_string(),
 	};
 
-	let media_url = &media.site_url.unwrap();
-	let embed = serenity::CreateEmbed::new()
-		.author(
-			serenity::CreateEmbedAuthor::new(&media.title.unwrap().romaji.unwrap())
-				.icon_url("https://anilist.co/img/icons/favicon-32x32.png")
-				.url(media_url),
-		)
-		.thumbnail(&media.cover_image.unwrap().extra_large.unwrap())
+	let title = media
+		.title
+		.and_then(|title| title.romaji)
+		.unwrap_or_else(|| "Unknown title".to_string());
+	let site_url = media
+		.site_url
+		.unwrap_or_else(|| anilist_url(kind, media.id));
+	let author = serenity::CreateEmbedAuthor::new(title)
+		.icon_url("https://anilist.co/img/icons/favicon-32x32.png")
+		.url(&site_url);
+	let mut embed = serenity::CreateEmbed::new()
+		.author(author)
 		.description(description)
 		.color(3447003)
 		.footer(serenity::CreateEmbedFooter::new(media_stats));
+	if let Some(cover) = media.cover_image.and_then(|cover| cover.extra_large) {
+		embed = embed.thumbnail(cover);
+	}
 
 	send_deletable(
 		ctx,
 		poise::CreateReply {
-			content: Some(format!("<{}>", &media_url)),
+			content: Some(format!("<{}>", site_url)),
 			embeds: vec![embed],
 			reply: true,
 			..Default::default()
